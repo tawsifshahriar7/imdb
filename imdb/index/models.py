@@ -1,3 +1,5 @@
-from django.db import models
+from django.db import connection
 
-# Create your models here.
+with connection.cursor() as cursor:
+    cursor.execute("SELECT * FROM MOVIE")
+    rows=cursor.fetchall()
