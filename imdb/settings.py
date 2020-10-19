@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'imdb.index',
+    'imdb.celeb',
+    'imdb.login_user',
+    'imdb.movie',
+    'imdb.profile_user',
+    'imdb.search',
+    'imdb.tv_show',
 ]
 
 MIDDLEWARE = [

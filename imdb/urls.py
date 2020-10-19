@@ -19,4 +19,10 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/',include('imdb.index.urls')),
+    path('celeb/',include('imdb.celeb.urls')),
+    path('login/',include('imdb.login_user.urls')),
+    path('movie/',include('imdb.movie.urls')),
+    path('profile/',include('imdb.profile_user.urls')),
+    path('search/',include('imdb.search.urls')),
+    path('tvshow/',include('imdb.tv_show.urls')),
 ]
