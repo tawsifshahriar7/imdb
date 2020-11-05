@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Celebs</title>
 </head>
 <body>
-    <h1>Celeb</h1>
+    <ul>
+        {% for celeb in celebs %}
+            <li>
+            <img src="{{ celeb.2 }}" height="100" width="50">
+            <a href="/celeb/{{ celeb.0 }}/">{{ celeb.1 }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
