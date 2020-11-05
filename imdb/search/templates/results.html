@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+</head>
+<body>
+    <h1>Search Result</h1>
+    {% if movies %}
+        <h3>Movies</h3>
+        {% for movie in movies %}
+            <a href="/movie/{{ movie.0 }}/">{{ movie.1 }}</a>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h3>No Movie with this name</h3>
+    {% endif %}
+    {% if shows %}
+        <h3>TV Show</h3>
+        {% for show in shows %}
+             <a href="/tvshow/{{ show.0 }}/">{{ show.1 }}</a>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h3>No TV Show with this name</h3>
+    {% endif %}
+</body>
+</html>
