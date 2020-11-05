@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
-    <h1>Movie</h1>
-</body>
+<html>
+<ul>
+    {% for movie in movies %}
+        <li>
+            <img src={{ movie.7 }} width="50" height="50">
+            <a href="/movie/{{ movie.0 }}/">{{ movie.1 }}</a>
+        </li>
+    {% endfor %}
+</ul>
 </html>
