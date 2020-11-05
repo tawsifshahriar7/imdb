@@ -5,6 +5,9 @@
     <title>Index</title>
 </head>
 <body>
-    <h1>Search</h1>
+    <form action="/search/result/" method="post">
+        {% csrf_token %}
+        <input type="search" id="search" name="search_box">
+    </form>
 </body>
 </html>

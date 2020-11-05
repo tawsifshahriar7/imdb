@@ -15,4 +15,4 @@ def detail(request, show_id):
         sql = "SELECT * FROM TV_SHOW WHERE SHOW_ID=%d" % show_id
         cursor.execute(sql)
         tv_show = cursor.fetchall()
-    return render(request, 'detail.html', {"tv_show": tv_show})
+    return render(request, 'show_detail.html', {"tv_show": tv_show})
