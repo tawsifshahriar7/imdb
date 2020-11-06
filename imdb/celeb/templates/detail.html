@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{ celeb.0.1 }}</title>
+    <title>Movie Title</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+    {% load static %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'MovieStyle.css' %}">
 </head>
 <body>
-    <img src="{{ celeb.0.2 }}" height="520" width="360">
-    <h1>{{ celeb.0.1 }}</h1>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		<!-- {% block account_block %}
+			{% if user.is_authenticated %}
+				<div class="dropdown">
+					<button class="dropbtn">{{user.username}}
+					  <i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+					  <a href="#profile">Profile</a>
+					  <a href="#logout">Logout</a>
+					</div>
+				</div>
+			{% else %}
+				<a href="#signin_page">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+		-->
+		<div class="search-container">
+		<form action="/search/result/">
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="movie-container">
+		<img src="{{ celeb.0.2 }}">
+		<div class="information">
+			<h1>{{celeb.0.1}}</h1>
+		</div>
+
+		<div class="synopsis">
+			<h3>Biography</h3>
+			<p>
+				{{ celeb.0.5 }}
+			</p>
+		</div>
+
+	</div>
+
 </body>
 </html>
