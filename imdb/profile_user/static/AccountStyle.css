@@ -1,0 +1,44 @@
+.profile {
+	margin: auto;
+	margin-top: 20px;
+	width: 50%;
+	height: 600px;
+	background-color: white;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.profile .rating{
+	margin: auto;
+	margin-top: 50px;
+	width: 90%;
+	height: 120px;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+	overflow: scroll;
+}
+
+.profile .reviews{
+	margin: auto;
+	margin-top: 20px;
+	width: 90%;
+	height:120px;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+	overflow:scroll;
+}
+
+.profile .watchlist{
+	margin: auto;
+	margin-top: 20px;
+	width: 90%;
+	height: 120px;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+	overflow: scroll;
+}

@@ -1,0 +1,78 @@
+.movie-container{
+	margin: auto;
+	width: 50%;
+	height: 1400px;
+	border: 3px solid;
+	border-radius: 5px;
+	background-color: white;
+	position: relative;
+}
+
+img	{
+	float: left;
+	width: 300px;
+	height: 300px;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.information{
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px;
+	padding-left: 20px;
+}
+
+p {
+	font-size: 17px;
+}
+
+.synopsis {
+	position: absolute;
+	top: 360px;
+	width: 90%;
+	height: 200px;
+	left: 5%;
+	border: 3px solid;
+	border-radius: 5px;
+	padding-left: 20px;
+	overflow: scroll;
+}
+
+.cast {
+	position: absolute;
+	top: 680px;
+	width: 90%;
+	height: 200px;
+	left: 5%;
+	border: 3px solid;
+	border-radius: 5px;
+	padding-left: 20px;
+	overflow: scroll;
+}
+
+.reviews-section {
+	position: absolute;
+	top: 1000px;
+	width: 90%;
+	height: 300px;
+	left: 5%;
+	border: 3px solid;
+	border-radius: 5px;
+	padding-left: 20px;
+	overflow: scroll;
+}
+
+.user-review {
+	width: 90%;
+	height: 100px;
+	margin: auto;
+	padding: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+}
+
+a {
+	text-decoration: none;
+	font-size: 17px;
+}

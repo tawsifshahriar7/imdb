@@ -9,10 +9,10 @@ def process(request):
 def search(request):
     text = request.POST["search_box"]
     with connection.cursor() as cursor:
-        sql = "SELECT * FROM MOVIE WHERE NAME ='%s'" % text
+        sql = "SELECT * FROM MOVIE WHERE UPPER(NAME) LIKE UPPER('%%%s%%')" % text
         cursor.execute(sql)
         movies = cursor.fetchall()
-        sql2 = "SELECT * FROM TV_SHOW WHERE NAME = '%s'" % text
+        sql2 = "SELECT * FROM TV_SHOW WHERE UPPER(NAME) LIKE UPPER('%%%s%%')" % text
         cursor.execute(sql2)
         shows = cursor.fetchall()
     return render(request, 'results.html',{"movies": movies, "shows": shows})

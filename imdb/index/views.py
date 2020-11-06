@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
-def process (request):
+
+def process(request):
     return render(request, 'index.html')
 
