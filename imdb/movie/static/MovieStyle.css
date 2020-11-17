@@ -15,12 +15,15 @@ img	{
 	margin-left: 20px;
 	margin-top: 20px;
 }
+.intro{
+	display: flex;
+	flex-wrap: nowrap;
+	width: 90%;
+	margin: auto;
+}
 
-.information{
-	float: left;
+.info{
 	margin-left: 20px;
-	margin-top: 20px;
-	padding-left: 20px;
 }
 
 p {

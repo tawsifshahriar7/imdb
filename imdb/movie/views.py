@@ -14,6 +14,7 @@ def detail(request, movie_id):
     with connection.cursor() as cursor:
         sql="SELECT * FROM MOVIE WHERE MOVIE_ID=%d" % movie_id
         cursor.execute(sql)
-        movie_detail=cursor.fetchall()
+        movie_detail = cursor.fetchall()
+        print(movie_detail)
     return render(request, 'details.html', {"movie_detail": movie_detail})
 
