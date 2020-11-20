@@ -15,4 +15,11 @@ def detail(request, celeb_id):
         sql = "SELECT * FROM CELEB WHERE CELEB_ID=%d" % celeb_id
         cursor.execute(sql)
         celeb = cursor.fetchall()
-    return render(request, 'detail.html', {"celeb": celeb})
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    user = [username, loggedin]
+    return render(request, 'detail.html', {"celeb": celeb, "user": user})

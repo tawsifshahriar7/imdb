@@ -18,22 +18,21 @@
 		<a href="/tvshow/">TV Shows</a>
 		<a href="/celeb/">Celebs</a>
 		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
-		<!-- {% block account_block %}
-			{% if user.is_authenticated %}
+		{% block account_block %}
+			{% if user.1 %}
 				<div class="dropdown">
-					<button class="dropbtn">{{user.username}}
+					<button class="dropbtn">{{user.0}}
 					  <i class="fa fa-caret-down"></i>
 					</button>
 					<div class="dropdown-content">
-					  <a href="#profile">Profile</a>
+					  <a href="/profile/">Profile</a>
 					  <a href="#logout">Logout</a>
 					</div>
 				</div>
 			{% else %}
-				<a href="#signin_page">Sign-In</a>
+				<a href="/login/">Sign-In</a>
 			{% endif %}
 		{% endblock %}
-		-->
 		<div class="search-container">
 		<form action="/search/result/">
 		  <input type="text" placeholder="Search.." name="search_box">

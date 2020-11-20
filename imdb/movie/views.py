@@ -12,9 +12,22 @@ def process(request):
 
 def detail(request, movie_id):
     with connection.cursor() as cursor:
-        sql="SELECT * FROM MOVIE WHERE MOVIE_ID=%d" % movie_id
+        sql = "SELECT * FROM MOVIE WHERE MOVIE_ID=%d" % movie_id
         cursor.execute(sql)
         movie_detail = cursor.fetchall()
-        print(movie_detail)
-    return render(request, 'details.html', {"movie_detail": movie_detail})
+        sql = "select MR.HANDLE,MR.RATING,MR.REVIEW_TEXT from MOVIE M join MOVIE_REVIEWS MR on M.MOVIE_ID = MR.MOVIE_ID where M.MOVIE_ID = %d" % movie_id
+        cursor.execute(sql)
+        movie_review = cursor.fetchall()
+        sql = "select C.CELEB_ID, C.NAME from MOVIE M join MOVIE_ACTOR MA on M.MOVIE_ID = MA.MOVIE_ID join CELEB C on C.CELEB_ID = MA.CELEB_ID where M.MOVIE_ID=%d" % movie_id
+        cursor.execute(sql)
+        actors = cursor.fetchall()
+
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    user = [username, loggedin]
+    return render(request, 'details.html', {"movie_detail": movie_detail, "user": user, "movie_review": movie_review, "actors": actors})
 
