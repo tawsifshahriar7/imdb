@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'imdb.profile_user',
     'imdb.search',
     'imdb.tv_show',
+    'imdb.superuser',
 ]
 
 MIDDLEWARE = [

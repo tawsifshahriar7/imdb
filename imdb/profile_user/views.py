@@ -1,4 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
+from django.db import connection
+from django.http import Http404
 
 
 def process(request):
@@ -18,3 +20,13 @@ def logout(request):
     response.delete_cookie('username')
     response.delete_cookie('isLoggedIn')
     return response
+
+
+def public(request, handle):
+    with connection.cursor() as cursor:
+        sql = "select handle,photo from user_imdb where handle = '%s'" % handle
+        cursor.execute(sql)
+        profile = cursor.fetchall()
+        if len(profile) == 0:
+            raise Http404
+    return render(request, 'public_profile.html', {"profile": profile})

@@ -25,4 +25,5 @@ urlpatterns = [
     path('profile/', include('imdb.profile_user.urls')),
     path('search/', include('imdb.search.urls')),
     path('tvshow/', include('imdb.tv_show.urls')),
+    path('superuser/', include('imdb.superuser.urls')),
 ]

@@ -48,18 +48,11 @@
 			<img src={{ movie_detail.0.7 }}>
 			<div class="info">
 				<h1>{{ movie_detail.0.1 }}</h1>
-				Rating: <br><br>
+				Rating: {{ movie_detail.0.8 }}<br><br>
 				Release Date:{{movie_detail.0.4}}<br><br>
 				Runtime:{{movie_detail.0.5}} Minutes<br><br>
-				Genre: {{ movie_detail.0.2 }}
-				<!-- displaying genres
-				{% for genre in movie.genre_list %}
-					{{genre}}{% if not forloop.last %},{% endif %}
-				{% endfor %}
-				-->
-				<br><br>
-				Director: <!-- find director using query and display -->
-				<br>
+				Genre: {{ movie_detail.0.2 }}<br><br>
+                Director: <a href="/celeb/{{ director.0.0 }}">{{ director.0.1 }}</a><br>
 			</div>
 		</div>
 
@@ -83,7 +76,7 @@
 			<h3>User Reviews</h3>
 			{% for review in movie_review %}
 				<!--<div class="user-review">-->
-					<a href="#user_profile"><b>{{review.0}}</b></a> <br><br>
+					<a href="/profile/id={{ review.0 }}"><b>{{review.0}}</b></a> <br><br>
 					<p>
 						Rating: {{review.1}} <br><br>
 						{{review.2}} <br>
