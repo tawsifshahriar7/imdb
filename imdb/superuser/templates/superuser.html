@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <title>Admin</title>
 </head>
-<body>
-<h3>Admin</h3>
+<body style="align-items: center">
+<h2>Admin</h2><br><br>
+
+<form method="post" action="/superuser/add_movie">
+    {% csrf_token %}
+    <button type="submit">Add Movie</button><br><br>
+</form>
+
+<form method="post" action="/superuser/add_tvshow">
+    {% csrf_token %}
+    <button type="submit">Add TV Show</button><br><br>
+</form>
+
+<form method="post" action="/superuser/add_celeb">
+    {% csrf_token %}
+    <button type="submit">Add Celeb</button><br><br>
+</form>
 </body>
 </html>

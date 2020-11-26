@@ -3,15 +3,14 @@
 <head>
     {% load static %}
     <title>Movie Title</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-	</script>
-
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'MovieStyle.css' %}">
+{#	<link rel="stylesheet" type="text/css" href="{% static 'MovieStyle.css' %}">#}
 </head>
 <body>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'movie.js' %}"></script>
 	<div class="navbar">
 		<nav>
 		<a href="/">IMDb</a>
@@ -27,7 +26,7 @@
 					</button>
 					<div class="dropdown-content">
 					  <a href="/profile/">Profile</a>
-					  <a href="#logout">Logout</a>
+					  <a href="/profile/logout/">Logout</a>
 					</div>
 				</div>
 			{% else %}
@@ -48,7 +47,7 @@
 			<img src={{ movie_detail.0.7 }}>
 			<div class="info">
 				<h1>{{ movie_detail.0.1 }}</h1>
-				Rating: {{ movie_detail.0.8 }}<br><br>
+				Rating: {{ movie_detail.0.8 }}{% if user.1 %} <button id="ratebtn">Rate this</button> {% endif %}<br><br><br><br>
 				Release Date:{{movie_detail.0.4}}<br><br>
 				Runtime:{{movie_detail.0.5}} Minutes<br><br>
 				Genre: {{ movie_detail.0.2 }}<br><br>
@@ -84,6 +83,42 @@
 				<!--</div>-->
 			{% endfor %}
 		</div>
+
+        {% if user.1 %}
+			<div class="add-review">
+				<button id="reviewbtn">Add a Review</button>
+			</div>
+		{% endif %}
+	</div>
+
+    <div id="rateForm" class="modal">
+	  <div class="rate-form-content">
+		<span class="close">&times;</span>
+		<form id="giveRating" class="rating" method="post" action="giveRating.php">
+			<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+			<input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+			<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+			<input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+			<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+			<input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+			<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+			<input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+			<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+			<input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+		</form>
+	  </div>
+	</div>
+
+	<div id="reviewForm" class="modal">
+	  <div class="review-form-content">
+		<span class="close">&times;</span>
+		<form id="giveReview" method="get" action="giveReview.php">
+			<label for="review-text"><h3>Write a Review</h3></label><br>
+			<textarea  name="review-text" id="review-text" cols="100">
+			</textarea>
+			<br><br>
+		</form>
+	  </div>
 	</div>
 
 </body>

@@ -9,7 +9,8 @@
     <h2 id="header1">IMDb</h2><br>    
     <div class="reg">
 	<h2 id="header2">Create account</h2>    
-    <form id="reg" method="get" action="login.php">
+    <form id="reg" method="post" action="/login/register/registration/">
+        {% csrf_token %}
 		<label for="Uname"><b>Username</b></label><br>
         <input type="text" name="Uname" class="handle" placeholder="Username">    
         <br><br>
@@ -22,12 +23,12 @@
 		<label for="Pass2"><b>Re-eneter Password</b></label>   
         <input type="Password" name="Pass2" class="Pass" placeholder="Password">    
         <br><br>		
-        <input type="button" name="signup" id="signup" value="Create IMDb Account">       
+        <button type="submit">Create IMDb Account</button>
         <br><br>     
     </form>
 	<p>Already have an account?</p>
 	<div class="sign-in">
-		<a href="#"><b>Sign-In</b></a>
+		<a href="/login/"><b>Sign-In</b></a>
 	</div>
 </div>    
 </body>    

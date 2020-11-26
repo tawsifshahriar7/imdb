@@ -26,3 +26,13 @@ def login(request):
 def register(request):
     return render(request, 'reg.html')
 
+
+def registration(request):
+    username = request.POST['Uname']
+    password = request.POST['Pass']
+    email = request.POST['email']
+    with connection.cursor() as cursor:
+        sql = "insert into USER_IMDB(HANDLE,EMAIL,PASSWORD) values ('%s','%s','%s')" % (username, email, password)
+        cursor.execute(sql)
+        connection.commit()
+    return redirect('/login/')
