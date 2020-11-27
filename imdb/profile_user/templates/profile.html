@@ -7,7 +7,7 @@
     {% load static %}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css'%}">
-	<link rel="stylesheet" type="text/css" href="{% static 'AccountStyle.css'%}">
+{#	<link rel="stylesheet" type="text/css" href="{% static 'AccountStyle.css'%}">#}
 </head>
 <body>
 
@@ -48,12 +48,20 @@
 
 			<div class="rating">
 				<h3>Your Ratings</h3>
-				<!-- All rating data goes here -->
+				<ul>
+                    {% for r in rating %}
+                        <li>{{ r.1 }}: {{ r.0 }}</li><br><br>
+                    {% endfor %}
+                </ul>
 			</div>
 
 			<div class="reviews">
 				<h3>Your Reviews</h3>
-				<!-- All reviews data goes here -->
+				<ul>
+                    {% for r in review %}
+                        <li>{{ r.1 }}:<br>{{ r.0 }}</li><br><br>
+                    {% endfor %}
+                </ul>
 			</div>
 
 			<div class="watchlist">

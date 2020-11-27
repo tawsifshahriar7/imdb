@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.db import connection
 
 
@@ -34,3 +34,23 @@ def detail(request, movie_id):
     user = [username, loggedin]
     return render(request, 'details.html', {"movie_detail": movie_detail, "user": user, "movie_review": movie_review, "actors": actors, "director": director})
 
+
+def submit_review(request, movie_id):
+    rating = int(request.POST['rating'])
+    review_text = request.POST['review_text']
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        return redirect('/login/')
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM MOVIE_REVIEWS WHERE HANDLE='%s' AND MOVIE_ID=%d" % (username, movie_id)
+        cursor.execute(sql)
+        previous_review = cursor.fetchall()
+        if len(previous_review) == 0:
+            sql = "INSERT INTO MOVIE_REVIEWS VALUES(%d,'%s',%d,'%s')" % (movie_id, username, rating, review_text)
+        else:
+            sql = "UPDATE MOVIE_REVIEWS SET RATING=%d,REVIEW_TEXT='%s' WHERE MOVIE_ID=%d" % (rating, review_text, movie_id)
+        cursor.execute(sql)
+        connection.commit()
+    return redirect('/movie/%d/' % movie_id)

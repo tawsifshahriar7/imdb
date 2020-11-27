@@ -7,7 +7,7 @@
     {% load static %}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'MovieStyle.css' %}">
+{#	<link rel="stylesheet" type="text/css" href="{% static 'MovieStyle.css' %}">#}
 </head>
 <body>
 
@@ -20,15 +20,8 @@
 		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
 		{% block account_block %}
 			{% if user.1 %}
-				<div class="dropdown">
-					<button class="dropbtn">{{user.0}}
-					  <i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-content">
-					  <a href="/profile/">Profile</a>
-					  <a href="#logout">Logout</a>
-					</div>
-				</div>
+                <a href="/profile/">{{ user.0 }}</a>
+                <a href="#logout">Logout</a>
 			{% else %}
 				<a href="/login/">Sign-In</a>
 			{% endif %}
@@ -45,7 +38,11 @@
 	<div class="movie-container">
 		<img src="{{ celeb.0.2 }}">
 		<div class="information">
-			<h1>{{celeb.0.1}}</h1>
+            <h1>{{celeb.0.1}}</h1>
+                Born: {{celeb.0.3}}<br><br>
+                {% if celeb.0.6 %}
+                    Height: {{celeb.0.6}}m<br>
+                {% endif %}
 		</div>
 
 		<div class="synopsis">
