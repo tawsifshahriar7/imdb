@@ -51,6 +51,19 @@
 				Runtime:{{movie_detail.0.5}} Minutes<br><br>
 				Genre: {{ movie_detail.0.2 }}<br><br>
                 Director: <a href="/celeb/{{ director.0.0 }}">{{ director.0.1 }}</a><br>
+                {% if user.1 %}
+                    {% if status %}
+                        <form method="get" action="/movie/{{ movie_detail.0.0 }}/remove_from_watchlist/">
+                        {% csrf_token %}
+                        <button type="submit">Remove From Watchlist</button>
+                        </form>
+                        {% else %}
+                         <form method="get" action="/movie/{{ movie_detail.0.0 }}/add_to_watchlist/">
+                        {% csrf_token %}
+                        <button type="submit">Add to Watchlist</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
 			</div>
 		</div>
 

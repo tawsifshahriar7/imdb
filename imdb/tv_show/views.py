@@ -11,13 +11,6 @@ def process(request):
 
 
 def detail(request, show_id):
-    with connection.cursor() as cursor:
-        sql = "SELECT SHOW_ID, NAME, GENRE, SYNOPSIS, RELEASE_DATE, LANGUAGE, POSTER,TRATING(SHOW_ID) FROM TV_SHOW WHERE SHOW_ID=%d" % show_id
-        cursor.execute(sql)
-        tv_show = cursor.fetchall()
-        sql = "SELECT TR.HANDLE, TR.RATING,TR.REVIEW_TEXT from TV_SHOW T join TV_REVIEWS TR on T.SHOW_ID = TR.SHOW_ID where T.SHOW_ID=%d" % show_id
-        cursor.execute(sql)
-        reviews = cursor.fetchall()
     try:
         username = request.COOKIES['username']
         loggedin = request.COOKIES['isLoggedIn']
@@ -25,7 +18,23 @@ def detail(request, show_id):
         username = None
         loggedin = False
     user = [username, loggedin]
-    return render(request, 'show_detail.html', {"tv_show": tv_show, "user": user, "reviews": reviews})
+    with connection.cursor() as cursor:
+        sql = "SELECT SHOW_ID, NAME, GENRE, SYNOPSIS, RELEASE_DATE, LANGUAGE, POSTER,TRATING(SHOW_ID) FROM TV_SHOW WHERE SHOW_ID=%d" % show_id
+        cursor.execute(sql)
+        tv_show = cursor.fetchall()
+        sql = "SELECT TR.HANDLE, TR.RATING,TR.REVIEW_TEXT from TV_SHOW T join TV_REVIEWS TR on T.SHOW_ID = TR.SHOW_ID where T.SHOW_ID=%d" % show_id
+        cursor.execute(sql)
+        reviews = cursor.fetchall()
+        sql = "SELECT STATUS FROM TV_SHOW_WATCHLIST WHERE SHOW_ID=%d AND HANDLE='%s'" % (show_id, username)
+        cursor.execute(sql)
+        status = cursor.fetchall()
+        if len(status) == 0:
+            status = False
+        elif status[0][0] == 'True':
+            status = True
+        else:
+            status = False
+    return render(request, 'show_detail.html', {"tv_show": tv_show, "user": user, "reviews": reviews, "status": status})
 
 
 def submit_review(request, show_id):
@@ -47,3 +56,41 @@ def submit_review(request, show_id):
         cursor.execute(sql)
         connection.commit()
     return redirect('/tvshow/%d/' % show_id)
+
+
+def add_to_watchlist(request, show_id):
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    if not loggedin:
+        return redirect('/tvshow/%d/' % show_id)
+    with connection.cursor() as cursor:
+        sql = "SELECT STATUS FROM TV_SHOW_WATCHLIST WHERE SHOW_ID=%d AND HANDLE='%s'" % (show_id, username)
+        cursor.execute(sql)
+        status = cursor.fetchall()
+        if len(status) == 0:
+            sql = "INSERT INTO TV_SHOW_WATCHLIST VALUES(%d,'%s','True')" % (show_id, username)
+        else:
+            sql = "UPDATE TV_SHOW_WATCHLIST SET STATUS='True' WHERE SHOW_ID=%d AND HANDLE='%s'" % (show_id, username)
+        cursor.execute(sql)
+        connection.commit()
+    return redirect('/tvshow/%d' % show_id)
+
+
+def remove_from_watchlist(request, show_id):
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    if not loggedin:
+        return redirect('/tvshow/%d/' % show_id)
+    with connection.cursor() as cursor:
+        sql = "UPDATE TV_SHOW_WATCHLIST SET STATUS='False' WHERE SHOW_ID=%d AND HANDLE='%s'" % (show_id, username)
+        cursor.execute(sql)
+        connection.commit()
+    return redirect('/tvshow/%d' % show_id)

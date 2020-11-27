@@ -19,7 +19,14 @@ def process(request):
         sql = "select REVIEW_TEXT,M2.NAME from MOVIE_REVIEWS M join MOVIE M2 on M2.MOVIE_ID = M.MOVIE_ID where HANDLE='%s' UNION SELECT REVIEW_TEXT,TS.NAME from TV_REVIEWS join TV_SHOW TS on TS.SHOW_ID = TV_REVIEWS.SHOW_ID where HANDLE='%s'" % (username, username)
         cursor.execute(sql)
         review = cursor.fetchall()
-    return render(request, 'profile.html', {"user": user, "rating": rating, "review": review})
+        sql = "select MW.HANDLE,MW.MOVIE_ID,M.NAME from MOVIE_WATCHLIST MW join MOVIE M on M.MOVIE_ID = MW.MOVIE_ID where MW.HANDLE='%s' and MW.STATUS='True'" % username
+        cursor.execute(sql)
+        movie_watchlist = cursor.fetchall()
+        sql = "select TW.HANDLE,TW.SHOW_ID,T.NAME from TV_SHOW_WATCHLIST TW join TV_SHOW T on T.SHOW_ID = TW.SHOW_ID where TW.HANDLE='%s' and TW.STATUS='True'" % username
+        cursor.execute(sql)
+        show_watchlist = cursor.fetchall()
+        watchlist = [movie_watchlist, show_watchlist]
+    return render(request, 'profile.html', {"user": user, "rating": rating, "review": review, "watchlist": watchlist})
 
 
 def logout(request):

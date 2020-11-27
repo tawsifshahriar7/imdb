@@ -45,6 +45,19 @@
 				Release Date: {{tv_show.0.4}}<br><br>
 				Genre: {{ tv_show.0.2 }}<br><br>
 			</p>
+            {% if user.1 %}
+                    {% if status %}
+                        <form method="get" action="/tvshow/{{ tv_show.0.0 }}/remove_from_watchlist/">
+                        {% csrf_token %}
+                        <button type="submit">Remove From Watchlist</button>
+                        </form>
+                        {% else %}
+                         <form method="get" action="/tvshow/{{ tv_show.0.0 }}/add_to_watchlist/">
+                        {% csrf_token %}
+                        <button type="submit">Add to Watchlist</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
 		</div>
 
 		<div class="synopsis">
