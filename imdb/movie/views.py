@@ -7,7 +7,14 @@ def process(request):
         sql="select * from movie"
         cursor.execute(sql)
         movies = cursor.fetchall()
-    return render(request, 'movie.html', {"movies": movies})
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    user = [username,loggedin]
+    return render(request, 'movie.html', {"movies": movies, "user": user})
 
 
 def detail(request, movie_id):
