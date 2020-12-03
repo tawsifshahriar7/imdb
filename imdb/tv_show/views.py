@@ -94,3 +94,42 @@ def remove_from_watchlist(request, show_id):
         cursor.execute(sql)
         connection.commit()
     return redirect('/tvshow/%d' % show_id)
+
+
+def episode_details(request, show_id, season_no, episode_no):
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        username = None
+        loggedin = False
+    user = [username, loggedin]
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM EPISODE WHERE SHOW_ID=%d AND SEASON_NO=%d AND EPISODE_NO=%d" % (show_id, season_no, episode_no)
+        cursor.execute(sql)
+        episode = cursor.fetchall()
+        sql = "select ER.HANDLE,ER.RATING,ER.REVIEW_TEXT from EPISODE_REVIEWS ER join EPISODE E on E.SHOW_ID = ER.SHOW_ID and E.SEASON_NO = ER.SEASON_NO and E.EPISODE_NO = ER.EPISODE_NO where E.SHOW_ID=%d AND E.SEASON_NO=%d AND E.EPISODE_NO=%d" % (show_id, season_no, episode_no)
+        cursor.execute(sql)
+        reviews = cursor.fetchall()
+    return render(request, 'episode_details.html', {"episode": episode, "user": user, "reviews": reviews})
+
+
+def episode_submit_review(request, show_id, season_no, episode_no):
+    rating = int(request.POST['rating'])
+    review_text = request.POST['review_text']
+    try:
+        username = request.COOKIES['username']
+        loggedin = request.COOKIES['isLoggedIn']
+    except KeyError:
+        return redirect('/login/')
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM EPISODE_REVIEWS WHERE HANDLE='%s' AND SHOW_ID=%d AND SEASON_NO=%d AND EPISODE_NO=%d" % (username, show_id, season_no, episode_no)
+        cursor.execute(sql)
+        previous_review = cursor.fetchall()
+        if len(previous_review) == 0:
+            sql = "INSERT INTO EPISODE_REVIEWS VALUES(%d,%d,%d,'%s',%d,'%s')" % (show_id, season_no, episode_no, username, rating, review_text)
+        else:
+            sql = "UPDATE EPISODE_REVIEWS SET RATING=%d,REVIEW_TEXT='%s' WHERE SHOW_ID=%d AND SEASON_NO=%d AND EPISODE_NO=%d" % (rating, review_text, show_id, season_no, episode_no)
+        cursor.execute(sql)
+        connection.commit()
+    return redirect('/tvshow/%d/s%de%d/' % (show_id, season_no, episode_no))

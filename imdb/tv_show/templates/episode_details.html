@@ -37,33 +37,19 @@
 	</div>
 
 	<div class="movie-container">
-		<img src="{{ tv_show.0.6 }}">
+		<img src="{{ episode.0.7 }}">
 		<div class="information">
-			<h1>{{tv_show.0.1}}</h1>
+			<h1>{{episode.0.3}}</h1>
 			<p>
-				Rating: {{ tv_show.0.7 }}<br><br>
-				Release Date: {{tv_show.0.4}}<br><br>
-				Genre: {{ tv_show.0.2 }}<br><br>
+				Rating: <br><br>
+				Release Date: {{ episode.0.5 }}<br><br>
 			</p>
-            {% if user.1 %}
-                    {% if status %}
-                        <form method="get" action="/tvshow/{{ tv_show.0.0 }}/remove_from_watchlist/">
-                        {% csrf_token %}
-                        <button type="submit">Remove From Watchlist</button>
-                        </form>
-                        {% else %}
-                         <form method="get" action="/tvshow/{{ tv_show.0.0 }}/add_to_watchlist/">
-                        {% csrf_token %}
-                        <button type="submit">Add to Watchlist</button>
-                        </form>
-                    {% endif %}
-                {% endif %}
 		</div>
 
 		<div class="synopsis">
 			<h3>Synopsis</h3>
 			<p>
-				{{ tv_show.0.3 }}
+				{{ episode.0.4 }}
 			</p>
 		</div>
 
@@ -91,7 +77,7 @@
 			{% endfor %}
 		</div>
         {% if user.1 %}
-			<form method="post" action="/tvshow/{{ tv_show.0.0 }}/review/">
+			<form method="post" action="/tvshow/{{ episode.0.0 }}/s{{ episode.0.1 }}e{{ episode.0.2 }}/review/">
             {% csrf_token %}
             Your Rating: <input type="number" min="0" max="10" name="rating"/><br><br>
             Your Review: <div class="input-group mb-3">
