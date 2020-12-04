@@ -111,7 +111,16 @@ def episode_details(request, show_id, season_no, episode_no):
         sql = "select ER.HANDLE,ER.RATING,ER.REVIEW_TEXT from EPISODE_REVIEWS ER join EPISODE E on E.SHOW_ID = ER.SHOW_ID and E.SEASON_NO = ER.SEASON_NO and E.EPISODE_NO = ER.EPISODE_NO where E.SHOW_ID=%d AND E.SEASON_NO=%d AND E.EPISODE_NO=%d" % (show_id, season_no, episode_no)
         cursor.execute(sql)
         reviews = cursor.fetchall()
-    return render(request, 'episode_details.html', {"episode": episode, "user": user, "reviews": reviews})
+        sql = "select C.CELEB_ID,C.NAME from EPISODE_ACTOR EA join CELEB C on C.CELEB_ID = EA.CELEB_ID where EA.SHOW_ID=%d and EA.SEASON_NO=%d and EA.EPISODE_NO=%d" % (show_id, season_no, episode_no)
+        cursor.execute(sql)
+        actors = cursor.fetchall()
+        sql = "select C.CELEB_ID,C.NAME from EPISODE_DIRECTOR ED join CELEB C on C.CELEB_ID = ED.CELEB_ID where ED.SHOW_ID=%d and ED.SEASON_NO=%d and ED.EPISODE_NO=%d" % (show_id, season_no, episode_no)
+        cursor.execute(sql)
+        directors = cursor.fetchall()
+        sql = "select C.CELEB_ID,C.NAME from EPISODE_WRITER EW join CELEB C on C.CELEB_ID = EW.CELEB_ID where EW.SHOW_ID=%d and EW.SEASON_NO=%d and EW.EPISODE_NO=%d" % (show_id, season_no, episode_no)
+        cursor.execute(sql)
+        writers = cursor.fetchall()
+    return render(request, 'episode_details.html', {"episode": episode, "user": user, "reviews": reviews, "actors": actors, "directors": directors, "writers": writers})
 
 
 def episode_submit_review(request, show_id, season_no, episode_no):

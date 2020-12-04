@@ -43,6 +43,16 @@
 			<p>
 				Rating: <br><br>
 				Release Date: {{ episode.0.5 }}<br><br>
+                Director: <ul>
+                            {% for director in directors %}
+                                <li><a href="/celeb/{{ director.0 }}">{{ director.1 }}</a></li><br>
+                            {% endfor %}
+                            </ul><br>
+                Writer: <ul>
+                            {% for writer in writers %}
+                                <li><a href="/celeb/{{ writer.0 }}">{{ writer.1 }}</a></li><br>
+                            {% endfor %}
+                            </ul><br>
 			</p>
 		</div>
 
@@ -56,11 +66,9 @@
 		<div class="cast">
 			<h3>Cast</h3>
 			<ul>
-				<!-- display actors,directors etc.
-				{% for celeb in movie.cast %}
-					<li><a href="#celeb_page">{{celeb.celeb_name}}</a></li>
+				{% for actor in actors %}
+					<li><a href="/celeb/{{ actor.0 }}">{{actor.1}}</a></li>
 				{% endfor %}
-				-->
 			</ul>
 		</div>
 

@@ -41,6 +41,11 @@
     <center><button type="submit" class="btn btn-lg btn-primary">Add TV Show</button><br><br></center>
 </form>
 
+<form method="get" action="/superuser/add_episode/">
+    {% csrf_token %}
+    <center><button type="submit" class="btn btn-lg btn-primary">Add Episode</button><br><br></center>
+</form>
+
 <form method="get" action="/superuser/add_celeb/">
     {% csrf_token %}
     <center><button type="submit" class="btn btn-lg btn-primary">Add Celeb</button><br><br></center>
