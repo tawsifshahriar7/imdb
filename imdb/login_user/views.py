@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.db import connection
+from django.contrib import messages
 
 
 def process(request):
@@ -19,6 +20,7 @@ def login(request):
             response.set_cookie('username', username)
             response.set_cookie('isLoggedIn', loggedin)
         else:
+            messages.error(request, 'Username/Password incorrect')
             return redirect('/login/')
     return response
 
@@ -30,8 +32,21 @@ def register(request):
 def registration(request):
     username = request.POST['Uname']
     password = request.POST['Pass']
+    conf_password = request.POST['Pass2']
     email = request.POST['email']
     with connection.cursor() as cursor:
+        sql = "SELECT HANDLE FROM USER_IMDB WHERE HANDLE='%s'" % username
+        cursor.execute(sql)
+        x = cursor.fetchall()
+        sql = "SELECT EMAIL FROM USER_IMDB WHERE EMAIL='%s'" % email
+        cursor.execute(sql)
+        y = cursor.fetchall()
+        if len(x) != 0 or len(y) != 0:
+            messages.error(request, 'Username/Email already exists')
+            return redirect('/login/register')
+        if password != conf_password:
+            messages.error(request, 'passwords do not match')
+            return redirect('/login/register')
         sql = "insert into USER_IMDB(HANDLE,EMAIL,PASSWORD) values ('%s','%s','%s')" % (username, email, password)
         cursor.execute(sql)
         connection.commit()

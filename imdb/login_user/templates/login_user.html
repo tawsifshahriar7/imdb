@@ -10,22 +10,21 @@
 	<br>    
     <div class="login">
 	<h2 id="header2">Sign-In</h2>
+    {% if messages %}
+        {% for m in messages %}
+            <p>{{ m }}</p>
+        {% endfor %}
+    {% endif %}
     <form id="login" method="post" action="/login/auth/">
         {% csrf_token %}
 		<label for="Uname"><b>Username</b></label><br>
         <input type="text" name="Uname" id="Uname" placeholder="Email">    
         <br><br>    
-        <label for="Pass"><b>Password</b></label>   
-		<div class="account-recovery">
-			<a href="#"><b>Forgot Password?</b></a>
-		</div>
+        <label for="Pass"><b>Password</b></label>
         <input type="Password" name="Pass" id="Pass" placeholder="Password">    
         <br><br>    
         <button type="submit">Sign In</button>
-        <br><br>    
-        <input type="checkbox" id="check">    
-        <span>Keep me signed in.</span>    
-        <br><br> 
+        <br><br>
     </form>
 	<div class="create-account">
 		<a href="/login/register/"><b>Create your IMDb account</b></a>

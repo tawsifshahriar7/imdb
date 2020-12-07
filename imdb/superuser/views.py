@@ -109,6 +109,7 @@ def show_added(request):
     poster = request.POST['poster']
     release_date = request.POST['release_date']
     language = request.POST['language']
+    producer = request.POST['producer']
     with connection.cursor() as cursor:
         sql = "SELECT NAME FROM TV_SHOW WHERE NAME='%s'" % name
         cursor.execute(sql)
@@ -122,7 +123,17 @@ def show_added(request):
             sql = "INSERT INTO TV_SHOW VALUES(%d,'%s','%s','%s',TO_DATE('%s','YYYY-MM-DD'),'%s','%s')" % (show_id, name, genre, synopsis, release_date, language, poster)
             cursor.execute(sql)
             connection.commit()
+            tvshow_producer(producer, show_id)
     return redirect('/superuser/')
+
+
+def tvshow_producer(producer, show_id):
+    producer_list = re.findall(r'\d+', producer)
+    for producer in producer_list:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO TV_PRODUCER VALUES(%d,%d)" % (show_id, int(producer))
+            cursor.execute(sql)
+            connection.commit()
 
 
 def celeb_added(request):

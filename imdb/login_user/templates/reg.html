@@ -5,23 +5,28 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'regStyle.css' %}">
 </head>    
-<body>    
+<body>
     <h2 id="header1">IMDb</h2><br>    
     <div class="reg">
-	<h2 id="header2">Create account</h2>    
+	<h2 id="header2">Create account</h2>
+    {% if messages %}
+        {% for m in messages %}
+            <p>{{ m }}</p>
+        {% endfor %}
+    {% endif %}
     <form id="reg" method="post" action="/login/register/registration/">
         {% csrf_token %}
 		<label for="Uname"><b>Username</b></label><br>
-        <input type="text" name="Uname" class="handle" placeholder="Username">    
+        <input type="text" name="Uname" class="handle" placeholder="Username" required>
         <br><br>
 		<label for="email"><b>Email</b></label><br>
-        <input type="text" name="email" class="handle" placeholder="Email">    
+        <input type="text" name="email" class="handle" placeholder="Email" required>
         <br><br> 		
         <label for="Pass"><b>Password</b></label>   
-        <input type="Password" name="Pass" class="Pass" placeholder="at least 8 characters">    
+        <input type="Password" name="Pass" class="Pass" placeholder="at least 8 characters" required>
         <br><br>
 		<label for="Pass2"><b>Re-eneter Password</b></label>   
-        <input type="Password" name="Pass2" class="Pass" placeholder="Password">    
+        <input type="Password" name="Pass2" class="Pass" placeholder="Password" required>
         <br><br>		
         <button type="submit">Create IMDb Account</button>
         <br><br>     
