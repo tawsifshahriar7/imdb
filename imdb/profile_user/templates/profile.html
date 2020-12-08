@@ -37,13 +37,20 @@
 
 	<div class="profile">
 		<div>
-			<h2>{{user.username}}</h2>
-
+			<h2>{{user.0}}</h2>
+            <p><img src="{{ profile_data.0.3 }}" height="100" width="75"></p>
+            <form method="get" action="/profile/id={{ user.0 }}/change_picture/">
+                {% csrf_token %}
+                <button type="submit">Change Profile Picture</button>
+            </form>
 			<div class="rating">
 				<h3>Your Ratings</h3>
 				<ul>
-                    {% for r in rating %}
-                        <li>{{ r.1 }}: {{ r.0 }}</li><br><br>
+                    {% for mr in m_review %}
+                        <li><a href="/movie/{{ mr.0 }}">{{ mr.1 }}</a>:<br>{{ mr.2 }}</li><br><br>
+                    {% endfor %}
+                    {% for tr in t_review %}
+                        <li><a href="/tvshow/{{ tr.0 }}">{{ tr.1 }}</a>:<br>{{ tr.2 }}</li><br><br>
                     {% endfor %}
                 </ul>
 			</div>
@@ -51,8 +58,11 @@
 			<div class="reviews">
 				<h3>Your Reviews</h3>
 				<ul>
-                    {% for r in review %}
-                        <li>{{ r.1 }}:<br>{{ r.0 }}</li><br><br>
+                    {% for mr in m_review %}
+                        <li><a href="/movie/{{ mr.0 }}">{{ mr.1 }}</a>:<br>{{ mr.3 }}</li><br><br>
+                    {% endfor %}
+                    {% for tr in t_review %}
+                        <li><a href="/tvshow/{{ tr.0 }}">{{ tr.1 }}</a>:<br>{{ tr.3 }}</li><br><br>
                     {% endfor %}
                 </ul>
 			</div>
@@ -68,6 +78,10 @@
                     {% endfor %}
                 </ul>
 			</div>
+            <form method="get" action="/profile/id={{ user.0 }}/change_password/">
+                {% csrf_token %}
+                <button type="submit">Change Password</button><br><br>
+            </form>
 		</div>
 	</div>
 
