@@ -34,6 +34,7 @@ def registration(request):
     password = request.POST['Pass']
     conf_password = request.POST['Pass2']
     email = request.POST['email']
+    birthday = request.POST['birthday']
     with connection.cursor() as cursor:
         sql = "SELECT HANDLE FROM USER_IMDB WHERE HANDLE='%s'" % username
         cursor.execute(sql)
@@ -47,7 +48,7 @@ def registration(request):
         if password != conf_password:
             messages.error(request, 'passwords do not match')
             return redirect('/login/register')
-        sql = "insert into USER_IMDB(HANDLE,EMAIL,PASSWORD) values ('%s','%s','%s')" % (username, email, password)
+        sql = "insert into USER_IMDB(HANDLE,EMAIL,PASSWORD,BIRTHDAY) values ('%s','%s','%s',TO_DATE('%s','YYYY-MM-DD'))" % (username, email, password, birthday)
         cursor.execute(sql)
         connection.commit()
     return redirect('/login/')
