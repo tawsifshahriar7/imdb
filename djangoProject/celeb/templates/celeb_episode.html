@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Celeb Episode Details</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{%  static  'NavStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{%  static  'celebEpStyle.css' %}">
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+        .celeb-profile {
+	margin: auto;
+	width: 50%;
+	background-color: white;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+}
+
+.celeb-profile .ep-list{
+	margin: auto;
+	margin-top: 50px;
+	width: 90%;
+	padding-left: 20px;
+	border: 3px solid;
+	border-radius: 5px;
+}
+    </style>
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		{% block account_block %}
+			{% if user.1 %}
+				<div class="dropdown">
+					<button class="dropbtn">{{user.0}}
+					  <i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+                        {% if user.2 == 'True' %}
+                            <a href="/superuser/profile/">Update</a>
+                        {%  endif %}
+					  <a href="/profile/">Profile</a>
+					  <a href="/profile/logout/">Logout</a>
+					</div>
+				</div>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {%  csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="celeb-profile">
+		<div>
+			<h2>{{ celeb_name.0.1 }}</h2>
+
+			<div class="ep-list">
+				<h3><a href="/tvshow/{{ show_name.0.0 }}/">{{ show_name.0.1 }}</a> </h3>
+				<ul>
+                    {% for ep in ep_career %}
+                        <li>Season {{ ep.1 }} Ep {{ ep.2 }}:<a href="/tvshow/{{ ep.0 }}/{{ ep.1 }}/{{ ep.2 }}/"> {{ ep.3 }}</a></li><br><br>
+                    {% endfor %}
+                </ul>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

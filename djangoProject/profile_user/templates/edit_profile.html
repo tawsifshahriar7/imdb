@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'superuserStyle.css' %}">
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		{% block account_block %}
+			{% if user.1 %}
+                <a href="/profile/">{{ user.0 }}</a>
+                <a href="/profile/logout/">Logout</a>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {% csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="add-form-content">
+		<form method="post" enctype="multipart/form-data" action="/profile/upload/">
+			{% csrf_token %}
+			<input type="file" name="propic" accept="image/*"><br><br>
+            {% if msg2 %} <b>{{ msg2 }}</b> <br><br> {% endif %}
+            New Username (Optional): <input type="text" class="form-control" name="new_username"><br><br>
+            New Password (Optional): <input type="password" class="form-control" name="new_pass"><br><br>
+            {% if msg %} <b>{{ msg }}</b> <br><br> {% endif %}
+			Enter Password (Required): <input type="password" class="form-control" name="old_pass"><br><br>
+			<button type="submit" class="btn btn-primary">Upload</button><br>
+		</form>
+	</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

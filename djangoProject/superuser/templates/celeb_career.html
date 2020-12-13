@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Celeb Career</title>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'superuserStyle.css' %}">
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		{% block account_block %}
+			{% if user.1 %}
+                <a href="/profile/">{{ user.0 }}</a>
+                <a href="/profile/logout/">Logout</a>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {% csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="profile">
+		<div>
+            <h2>Celeb Update</h2>
+			<div class="btn-group">
+			  <button id="addmovie_btn">Movie</button>
+			  <button id="addshow_btn">TV-Show</button>
+			  <button id="addepisode_btn">Episode</button>
+			</div>
+		</div>
+	</div>
+
+	<div id="new_movie" class="modal">
+		<div class="add-form-content">
+			<span class="close">&times;</span>
+			<form method="post" action="/superuser/{{ celeb_id }}/celeb_movie/">
+                {%  csrf_token %}
+				Movie Title: <input type="text" class="form-control" name="movie_name"><br><br>
+				Role: <input type="text" class="form-control" name="role"><br><br>
+				<button type="submit" class="btn btn-primary">Submit</button><br>
+			</form>
+		</div>
+	</div>
+
+	<div id="new_show" class="modal">
+		<div class="add-form-content">
+			<span class="close">&times;</span>
+			<form method="post" action="/superuser/{{ celeb_id }}/celeb_show/">
+                {% csrf_token %}
+				Show Title: <input type="text" class="form-control" name="show_name"><br><br>
+				Role: <input type="text" class="form-control" name="role"><br><br>
+				<button type="submit" class="btn btn-primary">Submit</button><br>
+			</form>
+		</div>
+	</div>
+
+	<div id="new_episode" class="modal">
+		<div class="add-form-content">
+			<span class="close">&times;</span>
+			<form method="post" action="/superuser/{{ celeb_id }}/celeb_episode/">
+                {%  csrf_token %}
+				Show Title: <input type="text" class="form-control" name="show_name"><br><br>
+                Season: <input type="text" class="form-control" name="season_no"><br><br>
+                Episode: <input type="text" class="form-control" name="episode_no"><br><br>
+				Role: <input type="text" class="form-control" name="role"><br><br>
+				<button type="submit" class="btn btn-primary">Submit</button><br>
+			</form>
+		</div>
+	</div>
+
+
+    <script src="{% static 'celebCareer.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

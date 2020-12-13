@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Episode List</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'navStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'ListStyle.css' %}">
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		 {% block account_block %}
+			{% if user.1 %}
+				<div class="dropdown">
+					<button class="dropbtn">{{ user.0 }}
+					  <i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+                        {% if user.2 == 'True' %}
+                            <a href="/superuser/profile/">Update</a>
+                        {%  endif %}
+					  <a href="/profile/">Profile</a>
+					  <a href="/profile/logout/">Logout</a>
+					</div>
+				</div>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {% csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="list-container">
+		<div class="sort-select" style="width:200px;">
+		  Season :
+          <form method="post" action="/tvshow/{{ show_id }}/season_select/">
+              {% csrf_token %}
+              <select id="season_select" name="season_select" onchange="this.form.submit()">
+                {% for s in seasons %}
+                    {% if s.0 == season_no %}
+                        <option value="{{ s.0 }}" selected>{{ s.0 }}</option>
+                    {% else %}
+                        <option value="{{ s.0 }}">{{ s.0 }}</option>
+                    {% endif %}
+                {% endfor %}
+              </select>
+          </form>
+		</div>
+      <h3>Season {{ season_no }}</h3>
+	  <ul>
+		{% for ep in episodes %}
+			<li>
+			  <img src="{{ ep.7 }}">
+                <h3><a href="/tvshow/{{ ep.0 }}/{{ ep.1 }}/{{ ep.2 }}/">Ep {{ ep.2 }} : {{ ep.3 }}</a></h3>
+			</li>
+		{% endfor %}
+	  </ul>
+      {% if user.2 == 'True' %}
+        <form method="get" action="/superuser/{{ show_id }}/{{ season_no }}/">
+            {% csrf_token %}
+            <button type="submit">Add Episode</button>
+        </form>
+      {% endif %}
+	</div>
+</body>
+</html>

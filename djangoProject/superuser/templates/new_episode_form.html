@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Episode Form</title>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'NavStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'superuserStyle.css' %}">
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		{% block account_block %}
+			{% if user.1 %}
+                <a href="/profile/">{{ user.0 }}</a>
+                <a href="/profile/logout/">Logout</a>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {% csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="add-form-content">
+		<form method="post" action="/superuser/{{ show_id }}/{{ season_no }}/episode_added/">
+			{% csrf_token %}
+			Episode No: <input type="text" class="form-control" name="episode_no"><br><br>
+			Episode Name: <input type="text" class="form-control" name="episode_name"><br><br>
+			Synopsis: <input type="text" class="form-control" name="synopsis"><br><br>
+			Release Date: <input type="date" class="form-control" name="release_date"><br><br>
+			Runtime: <input type="text" class="form-control" name="runtime"><br><br>
+			Poster: <input type="text" class="form-control" name="poster"><br><br>
+			<button type="submit" class="btn btn-primary">Submit</button><br>
+		</form>
+	</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

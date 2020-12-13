@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+
+    {% load static %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'navStyle.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'listStyle.css' %}">
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+	<div class="navbar">
+		<nav>
+		<a href="/">IMDb</a>
+		<a href="/movie/">Movies</a>
+		<a href="/tvshow/">TV Shows</a>
+		<a href="/celeb/">Celebs</a>
+        <a href="/news/">News</a>
+		<!-- Below block is for showing username if user is logged in otherwise sign-in -->
+		 {% block account_block %}
+			{% if user.1 %}
+				<div class="dropdown">
+					<button class="dropbtn">{{ user.0 }}
+					  <i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+                        {% if user.2 == 'True' %}
+                            <a href="/superuser/profile/">Update</a>
+                        {%  endif %}
+					  <a href="/profile/">Profile</a>
+					  <a href="/profile/logout/">Logout</a>
+					</div>
+				</div>
+			{% else %}
+				<a href="/login/">Sign-In</a>
+			{% endif %}
+		{% endblock %}
+
+		<div class="search-container">
+		<form action="/search/result/" method="post">
+            {% csrf_token %}
+		  <input type="text" placeholder="Search.." name="search_box">
+		  <button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+		</div>
+		</nav>
+	</div>
+
+	<div class="list-container">
+		<div class="sort-select" style="width:200px;">
+            <form method="post" action="/movie/sorted/">
+                {% csrf_token %}
+                <select id="sort_type" name="sort_type" onchange="this.form.submit()">
+                    <option value="" selected disabled hidden>Sort By</option>
+                    <option value="1">Rating</option>
+                    <option value="2">Release Date</option>
+                </select>
+            </form>
+		</div>
+	  <ol>
+		{% for movie in movies %}
+			<li>
+			  <img src="{{ movie.3 }}">
+                <h3><a href="/movie/{{ movie.0 }}/">{{ movie.1 }}</a> ({{ movie.2 }})</h3>
+                {% if movie.4 != 0 %}
+                    <b>{{ movie.4 | stringformat:'.2f' }}</b>
+                {% endif %}
+			</li>
+		{% endfor %}
+	  </ol>
+	</div>
+
+
+</body>
+</html>
